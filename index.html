@@ -10,10 +10,11 @@
             margin: 5%;
         }
         pre {
-            padding: 2px;
-            padding-left: 15px;
             color: blue;
-            border-radius: 8px;
+        } 
+        fieldset {
+            border-radius: 10px;
+            margin: 5px;
         }
         .process {
             background-color: darkgray;
@@ -49,6 +50,7 @@
     <br>
     <h2>The backtracking algorithm</h2>
     <div>
+        <fieldset>
         <pre>
             boolean solve(Node n) {
                 if n is a leaf node {
@@ -62,6 +64,7 @@
                 }
             }
         </pre>
+    </fieldset>
     </div>
     <div class="process">
         <p>Notice that the algorithm is expressed as a boolean function. This is essential to understanding the algorithm. If solve(n) is true, that means node n is part of a solution--that is, node n is one of the nodes on a path from the root to some goal node. We say that n is solvable. If solve(n) is false, then there is no path that includes n to any goal node.</p>
@@ -73,20 +76,24 @@
         <li>if no child of n is solvable, thrn n is not sol</li>
     </ul>
     <p>Hence, to decide whether any non-leaf node n is solvable (part of a path to a goal node), all you have to do is test whether any child of n is solvable. This is done recursively, on each child of n. In the above code, this is done by the lines</p>
+    <fieldset>
     <pre>
         for each child c of n {
             if solve(c) succeeds, return true
         }
         return false
     </pre>
+    </fieldset>
     <br>
     <p>Eventually the recursion will "bottom" out at a leaf node. If the leat node is a goal node, it is solvable; if the leaf node is not a goal node, it is not solvable. This is our base case. In the above code, this is done by the lines</p>
+    <fieldset>
     <pre>
         if n is a leaf node {
             if the leaf is a goal, return true
             else return false
         }
     </pre>
+    </fieldset>
     <br>
     <p>The backtracking algorithm is simple but important. you should understand it thoriughly. Another way starting the way it follows</p>
     <ul>
@@ -98,7 +105,8 @@
     </ol>
     <h3>Non-recursion backtracking, using a stack</h3>
     <p>Backtracking is a rather typical recursive algorithm, and any recursive algorithm can be rewritten as a stack pigem in fact, that is how your recursive algorithms are translated into machine or assembly language.</p>
-    <pre>
+    <fieldset>
+    <pre style="color: blue;">
         boolean solve(Node n) {
             put node n on the stack;
             while the stack is not empty {
@@ -114,11 +122,13 @@
             }
         }
     </pre>
+    </fieldset>
     <p>Starting from the root, the only nodes that can be pushed onto the stack are the children of the node currently on the top of the stack, and these are only pushed on one child at a time, hence, the nodes on the stack at all times describe a valid path in the tree. Nodes are removed from the stack only when it is known that they have no goal nodes among their descendents. Therefore, if the root node gets removed (making the stack empty), there must have been no goal nodes at all, and no solution to the problem.</p>
     <p>When the stack algorithm terminates successfully, the nodes on the stack form (in reverse ordert a path from the root to a goal node.
     </p>
     <p>Similarly, when the recursive algorithm finds a goal node, the path information is embodied (in reverse order) in the sequence of recursive calls. Thus as the recursion unwinds, the path can be recovered one node at a time, by (for instance) printing the node at the current level, or storing it in an array</p>
     <p>Here is the recursive backtracking algorithm, modified slightly to print (in reverse order) the nodes along the successful par</p>
+    <fieldset>
     <pre>
         boolean solve(Node n) {
             if n is a leaf node {
@@ -138,6 +148,7 @@
             }
         }
     </pre>
+    </fieldset>
     <h3>Keeping backtracking simple</h3>
     <p>All of these versions of the backtracking algorithm are pretty simple, but when applied to a real problem, they can get pretty cluttered up with details. Even determining whether the node is a leaf can be complex</p>
     <p>for example, if the path represents a series of moves in a chess endgame problem, the leaves are the checkmate and stalemate solutions</p>
@@ -154,6 +165,7 @@
     <p>For starters, let's do the simplest possible example of backtracking, which is searching an actual tree. We will also use the simplest kind of tree, a binary tree.</p>
     <p>A binary tree is a data structure composed of nodes. One node is designated as the root node. Each node can reference (point to) zero, one, or two other nodes, which are called its children. The children are referred to as the left child and/or the right child. All nodes are reachable (by one or more steps) from the root node, and there are no cycles. For our purposes, although this is not part of the definition of a binary tree, we will say that a node might or might not be a goal node, and will contain its name. The first example in this paper (which we repeat here) shows a binary tree</p>
     <p>Hear is a defination of the Binary tree class:</p>
+    <fieldset>
     <pre>
         public class BinaryTree {
             BinaryTree leftChild = null;
@@ -169,7 +181,9 @@
             }
         }
     </pre>
+    </fieldset>
     <p>Next we will craete a treeSearch class, and in it we will define a method makeTree() which constuction the above binary tree</p>
+    <fieldset>
     <pre>
         public class BinaryTree {
             BinaryTree leftChild = null;
@@ -185,14 +199,18 @@
             }
         }
     </pre>
+    </fieldset>
     <p>Here's main program to craete a binary and try to solve it</p>
+    <fieldset>
     <pre>
         public static void main(string args[]) {
             BinaryTree tree = makeTree();
             System.out.println(tree)
         }
     </pre>
+    </fieldset>
     <p>And finaly, hear the recursive backtracking routine to "solve" the binary tree by finding a goal node</p>
+    <fieldset>
     <pre>
         static bolean solvable(BinaryTree node) {
             /* 1 */ if(node == null) return false;
@@ -202,6 +220,7 @@
             /* 5 */ return false;
                 }
     </pre>
+    </fieldset>
     <p>Here's what the numbered lines are doing</p>
     <ol>
         <li>If we are given a null node, it's not solvable. This statement is so that we can call this method with the children of a node, without first checking whether those children actually exist.</li>
@@ -212,6 +231,7 @@
     </ol>
     <p>This program runs correctly and produces the unenlightening result true.</p>
     <p>Each time we ask for another node, we have to check if it is null. In the above we put that check as the first thing in solvable An alternative would be to check first whether each cit exists, and recur only if they do. Here's that alternative version:</p>
+    <fieldset>
     <pre>
         static bolean solvable(BinaryTree node) {
             if(node == null) return false;
@@ -221,6 +241,7 @@
             return false;
                 }
     </pre>
+    </fieldset>
     <p>i think the first version simpler, but the second version is slightly more efficient</p>
     <hr>
     <h3>What are the children</h3>
@@ -243,6 +264,7 @@
     <p>Used by both metjods to find the next "country" (actually, the row and column of the next square on the checkerboard).</p>
     <br>
     <p>Hear's the code for method :</p>
+    <fieldset>
     <pre>
     boolean explore1(int row, int column, int color) (
         if (row> NUM_ROWS)return mapisOKO);
@@ -254,7 +276,9 @@
             return false;
         }
     </pre>
+    </fieldset>
     <p>And hear's the code for method 2:</p>
+    <fieldset>
     <pre>
         boolean explore1(int row, int column, int color) (
             if (row> NUM_ROWS)return mapisOKO);
@@ -267,6 +291,7 @@
                 return false;
             }
         </pre>
+    </fieldset>
         <p>Those appear pretty similar, and you might think they are equally good, however the timing information suggest otherwise</p>
         <center> <div>
              <table border="1">
@@ -301,6 +326,7 @@
         <p>Don't cutter up your actual code more than you must Also, remember that code inserted for debugging purposes can itself contain,bugs, or (in the worst case) can affect the results, so be very careful with it
         </p>
         <p>Here's our debugging code For this trivial program, there's almost more debugging cooe theo actual code, out in tarder programs the proptiinons will be better</p>
+        <fieldset>
         <pre>
             static String indent="";
             static String name(Binary Tree node) {
@@ -318,7 +344,9 @@
                 return false;
             }    
         </pre>
+       </fieldset>
         <p>To use this code, we modify solvable as follow</p>
+        <fieldset>
         <pre>
             static boolean solvable (Binary Tree node) {
                 enter(node);
@@ -329,6 +357,7 @@
                 return no(node);
             } 
         </pre>
+        </fieldset>
         <dl>
             <dt>And we get these results :</dt>
             <dd>Entered solvable(Root)</dd>
@@ -356,6 +385,7 @@
         <p>Obviously, you don't want to print out all this debugging information from a program you are ready to submit (or to turn over to your manager). You could comment out your debugging calls, but that can be a lot of work. What's more, in the above example, you would have to replace every return(yes(node)) with return(true), and every return(no(node)) with return false. With all these changes, you might introduce new bugs into your program
         </p>
         <p>The simple solution is to make your debugging statements.conditional For example,</p>
+        <fieldset>
         <pre>
             static final boolean debugging false;
             static void enter(Binary Tree node) {
@@ -377,14 +407,18 @@
             }
         }
     </pre>
+    </fieldset>
         <p>In industry, actual programs often have multiple flags to control different aspects of debugging. Don't worry too much about making your code larger, modern compilers will notice that since the variable debugging is final, it can never be true, and the controlled code will be discarded.
         </p>
         <h3>Trick #4: Create an Exception.</h3>
         <p>If an Exception is thrown, you can get information about just where it happened by sending it the message printStackTrace(PrintStream). Since an Exception is an object like any other, you can create and throw your own Exceptions. However, Java programmers don't always realize that you can create an Exception without throwing it. For example, the following code</p>
+        <fieldset>
         <pre>
             new Exception("Checkpoint charlie").printStackTrace(System.out)
         </pre>
+        </fieldset>
         <p>will print out a message something like this, and the program will then continue normally. That is, the above code just acts like a print statement.</p>
+        <fieldset>
         <pre>
             java.lang.Exception: Checkpoint Charlie
             at TreeSearch.solvable (TreeSearch.java:53)
@@ -393,6 +427,7 @@
             at_SHELL 38.run(SHELL38.java:16)
             at bluej.runtime.ExecServer.suspendExecution(Unknown Source)
         </pre>
+        </fieldset>
         <hr>
         <h3>Example: Cindy's Puzzle</h3>
         <p>I call the following puzzle "Cindy's puzzle" for historical reasons. You have some number n of black marbles and the same number of white marbles, and you have a playing board which consists simply of a line of 2n+1 spaces to put the marbles in. Start with the black marbles all at one end (say, the left), the white marbles all at the other end, and a free space in between.
@@ -423,6 +458,7 @@
         </ul>
         <p>We write another method <b> int[] makeMove (int[] oldBoard,  int position) </b> that will take a board and a position, make a move from that position, and return as its value a new board. (We could write this somewhat more efficiently by changing the old board, rather than creating a new one, but here we are more concerned with simplicity.) In technical jargon, makeMove is "applicative" rather than "mutative</p>
         <p>Along with <b> canMove and makeMove,</b> we are using methods <b> puzzleSolved and printBoard  </b>with meanings that should be obvious</p>
+        <fieldset>
         <pre>
             static final boolean debugging false;
             static void enter(Binary Tree node) {
@@ -444,6 +480,7 @@
             }
         }
     </pre>
+    </fieldset>
         <p>Along with canMove and makeMove, we are using methods puzzleSolved and printBoard with meanings that should be obvious.
         </p>
         <p>Here is some output from the program:</p>
